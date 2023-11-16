@@ -1,0 +1,13 @@
+Chip 8 - virtual machine architecture
+
+control unit
+main memory
+data registers
+address register
+
+program counter
+call stack
+
+delay timer
+sound timer
+
