@@ -1,6 +1,30 @@
 #include "ALU-Operations.h"
 #include "registers.h"
 
+void assign_8XY0(std::int8_t vXAddr, std::int8_t vYAddr) {
+    auto& registerMap = Registers::registerMap;
+
+    registerMap.at(vXAddr) = registerMap.at(vYAddr);
+}
+
+void or_8XY1(std::int8_t vXAddr, std::int8_t vYAddr) {
+    auto& registerMap = Registers::registerMap;
+
+    registerMap.at(vXAddr) |= registerMap.at(vYAddr);
+}
+
+void and_8XY2(std::int8_t vXAddr, std::int8_t vYAddr) {
+    auto& registerMap = Registers::registerMap;
+
+    registerMap.at(vXAddr) &= registerMap.at(vYAddr);
+}
+
+void xor_8XY3(std::int8_t vXAddr, std::int8_t vYAddr) {
+    auto& registerMap = Registers::registerMap;
+
+    registerMap.at(vXAddr) ^= registerMap.at(vYAddr);
+}
+
 // addr is 4 bits in opcode, but min int size is 8 bits in c++ stdlib
 void add_8XY4(std::int8_t vXAddr, std::int8_t vYAddr) {
     // get values in registers
