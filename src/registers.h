@@ -5,12 +5,10 @@
 #include <unordered_map>
 #include <cstdint>
 
-// map register number to a pointer to the register
-inline const std::unordered_map<int8_t, int8_t&> registerMap;
-
 // registers
 namespace Registers {
     constexpr int numRegisters = 16;
+    constexpr int8_t carryFlagRegisterNum = 0xF;
 
     extern int8_t v0;
     extern int8_t v1;
