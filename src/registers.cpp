@@ -21,7 +21,7 @@ namespace Registers {
     int8_t vE;
     int8_t vF;
 
-    const std::unordered_map<int8_t, int8_t&> registerMap{
+    const std::unordered_map<std::int8_t, std::int8_t&> registerMap{
         {0x0, v0}, {0x1, v1}, {0x2, v2}, {0x3, v3}, {0x4, v4}, {0x5, v5}, {0x6, v6}, {0x7, v7}, {0x8, v8},
         {0x9, v9}, {0xA, vA}, {0xB, vB}, {0xC, vC}, {0xD, vD}, {0xE, vE}, {0xF, vF}
     };
@@ -36,5 +36,20 @@ namespace Registers {
         for (int i = 0; i < numRegisters; i++) {
             *(registers[i]) = 0;
         }
+    }
+
+    int8_t& get_carry_flag_register(void) {
+        auto& registerMap = Registers::registerMap;
+        
+        return registerMap.at(Registers::carryFlagRegisterNum);
+    }
+
+    std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t vXAddr, std::int8_t vYAddr) {
+        auto& registerMap = Registers::registerMap;
+
+        int8_t& vX = registerMap.at(vXAddr);
+        int8_t& vY = registerMap.at(vYAddr);
+
+        return std::tuple<int8_t&, int8_t&>{vX, vY};
     }
 }

@@ -3,6 +3,8 @@
 #define CHIP_8_REGISTERS_H
 
 #include <unordered_map>
+#include <tuple>
+#include <functional>
 #include <cstdint>
 
 // registers
@@ -33,11 +35,15 @@ namespace Registers {
     int8_t* const registers[numRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
 
     // map register number to a pointer to the register
-    extern const std::unordered_map<int8_t, int8_t&> registerMap;
+    extern const std::unordered_map<int8_t, std::int8_t&> registerMap;
 
     void init_registers(void);
 
     void do_all_register_inits(void);
+
+    int8_t& get_carry_flag_register(void);
+
+    std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t, std::int8_t);
 }
 
 #endif
