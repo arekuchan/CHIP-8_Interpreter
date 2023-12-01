@@ -1,6 +1,12 @@
 #include "ALU-Operations.h"
 #include "registers.h"
 
+void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
+    auto& registerMap = Registers::registerMap;
+
+    registerMap.at(vXAddr) += constant;
+}
+
 // TODO : move this opcode to another file, it isn't an ALU operation
 void assign_8XY0(std::int8_t vXAddr, std::int8_t vYAddr) {
     auto& registerMap = Registers::registerMap;

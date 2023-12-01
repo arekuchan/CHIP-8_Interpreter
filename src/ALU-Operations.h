@@ -3,6 +3,8 @@
 #define CHIP_8_ALU_OPERATIONS_H
 #include <cstdint>
 
+void addi_7XNN(std::int8_t, std::int8_t);
+
 void assign_8XY0(std::int8_t, std::int8_t);
 
 void or_8XY1(std::int8_t, std::int8_t);
