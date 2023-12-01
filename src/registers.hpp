@@ -44,6 +44,8 @@ namespace Registers {
     int8_t& get_carry_flag_register(void);
 
     std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t, std::int8_t);
+
+    int16_t& get_i_register(void);
 }
 
 #endif
