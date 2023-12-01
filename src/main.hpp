@@ -2,6 +2,6 @@
 #define CHIP_8_MAIN_H
 
 #include <iostream>
-#include "registers.h"
+#include "registers.hpp"
 
 #endif
