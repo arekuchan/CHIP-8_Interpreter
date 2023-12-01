@@ -1,5 +1,5 @@
-#include "ALU-Operations.h"
-#include "registers.h"
+#include "ALU-Operations.hpp"
+#include "registers.hpp"
 
 void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
     auto& registerMap = Registers::registerMap;
@@ -79,3 +79,11 @@ void shl_8XYE(std::int8_t vXAddr, std::int8_t vYAddr) {
     carryFlagRegister = vX & 0x80 ? 0x01 : 0x00;
     vX <<= 1;
 }
+
+void add_to_i_FX1E(std::int8_t vXAddr) {
+    int16_t& iRegister = Registers::get_i_register();
+    int8_t& vX = Registers::registerMap.at(vXAddr);
+
+    iRegister += vX;
+}
+

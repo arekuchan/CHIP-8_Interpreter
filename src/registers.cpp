@@ -1,4 +1,4 @@
-#include "registers.h"
+#include "registers.hpp"
 
 namespace Registers {
     int8_t v0;
@@ -21,6 +21,10 @@ namespace Registers {
     int8_t vE;
     int8_t vF;
 
+    // 16 bit memory address register
+    int16_t iRegister;
+
+    // register identifies are 4 bits but lowest size is 8 bits
     const std::unordered_map<std::int8_t, std::int8_t&> registerMap{
         {0x0, v0}, {0x1, v1}, {0x2, v2}, {0x3, v3}, {0x4, v4}, {0x5, v5}, {0x6, v6}, {0x7, v7}, {0x8, v8},
         {0x9, v9}, {0xA, vA}, {0xB, vB}, {0xC, vC}, {0xD, vD}, {0xE, vE}, {0xF, vF}
@@ -51,5 +55,9 @@ namespace Registers {
         int8_t& vY = registerMap.at(vYAddr);
 
         return std::tuple<int8_t&, int8_t&>{vX, vY};
+    }
+
+    int16_t& get_i_register(void) {
+        return Registers::iRegister;
     }
 }
