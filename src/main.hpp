@@ -3,5 +3,6 @@
 
 #include <iostream>
 #include "registers.hpp"
+#include "ram.hpp"
 
 #endif

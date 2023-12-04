@@ -1,8 +1,6 @@
 #include "sprites.hpp"
 
-namespace Sprites {
-    constexpr int numRowsOccupied = 5;
-
+namespace StoredSprites {
     // map char to its sprite representation
     // representation are stored as rows of bytes
     // each element in the array is a byte that represents a row
@@ -28,7 +26,7 @@ namespace Sprites {
     // 'E' -> {0xF0, 0x80, 0xF0, 0x80, 0xF0}
     // 'F' -> {0xF0, 0x80, 0xF0, 0x80, 0x80}
 
-    const std::unordered_map<char, std::array<std::byte, 5>> spriteMap{
+    const std::map<char, std::array<std::byte, StoredSprites::numRowsOccupied>> storedSpriteMap{
          {'0', {{std::byte{0xF0}, std::byte{0x90}, std::byte{0x90}, std::byte{0x90}, std::byte{0xF0}}}},
          {'1', {{std::byte{0x20}, std::byte{0x60}, std::byte{0x20}, std::byte{0x20}, std::byte{0x70}}}},
          {'2', {{std::byte{0xF0}, std::byte{0x10}, std::byte{0xF0}, std::byte{0x80}, std::byte{0xF0}}}},

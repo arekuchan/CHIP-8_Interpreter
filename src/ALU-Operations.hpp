@@ -2,6 +2,7 @@
 
 #define CHIP_8_ALU_OPERATIONS_H
 #include <cstdint>
+#include "OpcodeType.hpp"
 
 void addi_7XNN(std::int8_t, std::int8_t);
 

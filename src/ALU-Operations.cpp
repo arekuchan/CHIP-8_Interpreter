@@ -2,32 +2,32 @@
 #include "registers.hpp"
 
 void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
-    auto& registerMap = Registers::registerMap;
+    auto& registerMap = Registers::variableRegistersMap;
 
     registerMap.at(vXAddr) += constant;
 }
 
 // TODO : move this opcode to another file, it isn't an ALU operation
 void assign_8XY0(std::int8_t vXAddr, std::int8_t vYAddr) {
-    auto& registerMap = Registers::registerMap;
+    auto& registerMap = Registers::variableRegistersMap;
 
     registerMap.at(vXAddr) = registerMap.at(vYAddr);
 }
 
 void or_8XY1(std::int8_t vXAddr, std::int8_t vYAddr) {
-    auto& registerMap = Registers::registerMap;
+    auto& registerMap = Registers::variableRegistersMap;
 
     registerMap.at(vXAddr) |= registerMap.at(vYAddr);
 }
 
 void and_8XY2(std::int8_t vXAddr, std::int8_t vYAddr) {
-    auto& registerMap = Registers::registerMap;
+    auto& registerMap = Registers::variableRegistersMap;
 
     registerMap.at(vXAddr) &= registerMap.at(vYAddr);
 }
 
 void xor_8XY3(std::int8_t vXAddr, std::int8_t vYAddr) {
-    auto& registerMap = Registers::registerMap;
+    auto& registerMap = Registers::variableRegistersMap;
 
     registerMap.at(vXAddr) ^= registerMap.at(vYAddr);
 }
@@ -58,7 +58,7 @@ void minus_8XY5(std::int8_t vXAddr, std::int8_t vYAddr) {
 
 void shr_8XY6(std::int8_t vXAddr, std::int8_t vYAddr) {
     int8_t& carryFlagRegister = Registers::get_carry_flag_register();
-    auto&& vX = Registers::registerMap.at(vXAddr);
+    auto&& vX = Registers::variableRegistersMap.at(vXAddr);
 
     carryFlagRegister = vX & 0x01 ? 0x01 : 0x00;
     vX >>= 1;
@@ -74,7 +74,7 @@ void subn_8XY7(std::int8_t vXAddr, std::int8_t vYAddr) {
 
 void shl_8XYE(std::int8_t vXAddr, std::int8_t vYAddr) {
     int8_t& carryFlagRegister = Registers::get_carry_flag_register();
-    auto&& vX = Registers::registerMap.at(vXAddr);
+    auto&& vX = Registers::variableRegistersMap.at(vXAddr);
 
     carryFlagRegister = vX & 0x80 ? 0x01 : 0x00;
     vX <<= 1;
@@ -82,7 +82,7 @@ void shl_8XYE(std::int8_t vXAddr, std::int8_t vYAddr) {
 
 void add_to_i_FX1E(std::int8_t vXAddr) {
     int16_t& iRegister = Registers::get_i_register();
-    int8_t& vX = Registers::registerMap.at(vXAddr);
+    int8_t& vX = Registers::variableRegistersMap.at(vXAddr);
 
     iRegister += vX;
 }

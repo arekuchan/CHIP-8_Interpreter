@@ -6,6 +6,7 @@
 #include <tuple>
 #include <functional>
 #include <cstdint>
+#include <cmath>
 
 // registers
 namespace Registers {
@@ -32,10 +33,13 @@ namespace Registers {
     extern int8_t vE;
     extern int8_t vF;
 
+    // size in bits
+    constexpr int iRegisterSize = 16;
+
     int8_t* const registers[numRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
 
     // map register number to a pointer to the register
-    extern const std::unordered_map<int8_t, std::int8_t&> registerMap;
+    extern const std::unordered_map<int8_t, std::int8_t&> variableRegistersMap;
 
     void init_registers(void);
 
@@ -46,6 +50,10 @@ namespace Registers {
     std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t, std::int8_t);
 
     int16_t& get_i_register(void);
+
+    void set_i_register(int16_t);
+
+    bool i_register_wont_overflow(int);
 }
 
 #endif

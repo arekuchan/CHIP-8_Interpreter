@@ -4,6 +4,12 @@
 
 #include <cstdint>
 #include <array>
-#include <unordered_map>
+#include <map>
+
+namespace StoredSprites {
+    inline constexpr int numRowsOccupied = 5; // of each stored 
+
+    extern const std::map<char, std::array<std::byte, StoredSprites::numRowsOccupied>> storedSpriteMap;
+}
 
 #endif
