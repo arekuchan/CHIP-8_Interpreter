@@ -19,4 +19,9 @@ class InvalidStoredSpriteIdentifierException : public std::exception {
         virtual const char* what() const noexcept; 
 };
 
+class OutOfChip8VmRamException : public std::exception {
+    public:
+        virtual const char* what() const noexcept;
+};
+
 #endif

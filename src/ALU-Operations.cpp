@@ -1,6 +1,11 @@
 #include "ALU-Operations.hpp"
 #include "registers.hpp"
 
+// TODO : rename this file to ALU-OpCodes
+
+// TODO : change var names of vXAddr to vXID
+// As they aren't addresses
+
 void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
     auto& registerMap = Registers::variableRegistersMap;
 

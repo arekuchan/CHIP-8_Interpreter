@@ -37,7 +37,7 @@ namespace Registers {
     // used registers array, so make sure that is initialised first
     // sets all the registers to 0 bit pattern
     void init_registers(void) {
-        for (int i = 0; i < numRegisters; i++) {
+        for (int i = 0; i < numVarRegisters; i++) {
             *(registers[i]) = 0;
         }
     }

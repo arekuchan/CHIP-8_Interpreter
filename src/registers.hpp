@@ -10,7 +10,7 @@
 
 // registers
 namespace Registers {
-    constexpr int numRegisters = 16;
+    constexpr int numVarRegisters = 16;
     constexpr int8_t carryFlagRegisterNum = 0xF;
 
     extern int8_t v0;
@@ -36,7 +36,7 @@ namespace Registers {
     // size in bits
     constexpr int iRegisterSize = 16;
 
-    int8_t* const registers[numRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
+    int8_t* const registers[numVarRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
 
     // map register number to a pointer to the register
     extern const std::unordered_map<int8_t, std::int8_t&> variableRegistersMap;
