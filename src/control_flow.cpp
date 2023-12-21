@@ -2,9 +2,16 @@
 
 // TODO: all opcode functions will be changed to bool functions
 // the bool returned will indicate whether the PC register has been changed
-// from the execution of the instruction
+// from the execution of the instruction (true if has, else false)
 // if it hasn't just proceed as normal with +1 to next instruction
 // else, don't change the program counter register
+
+// essentially the overall architecture and process should be like:
+// *** parser reads program counter and fetches current instruction ***
+// *** parser decodes current instruction and extracts its args ***
+// *** instruction is executed and returns bool ***
+// *** if true, don't update program counter, else PC += 1 ***
+// *** go back to the first step ***
 
 void ret_00EE(void) {
     Registers::set_pc_register(Registers::pop_from_call_stack());
