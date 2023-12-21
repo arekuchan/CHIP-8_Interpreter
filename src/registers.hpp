@@ -40,6 +40,10 @@ namespace Registers {
 
     constexpr int pcRegisterSize = 16;
 
+    constexpr int maxPCRegNum = 65535; // (2 ** pcRegisterSize) - 1
+
+    constexpr int minPCRegNum = 0;
+
     // max num of elements
     constexpr int maxCallStackSize = 16;
 

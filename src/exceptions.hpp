@@ -24,4 +24,14 @@ class OutOfChip8VmRamException : public std::exception {
         virtual const char* what() const noexcept;
 };
 
+class RegisterOverflowException : public std::exception {
+    private:
+        std::string registerName;
+
+    public:
+        RegisterOverflowException(std::string) noexcept;
+
+        virtual const char* what() const noexcept;
+};
+
 #endif

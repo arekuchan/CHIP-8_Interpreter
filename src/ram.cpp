@@ -61,6 +61,10 @@ namespace RamOpcodes {
         auto&& vX = Registers::variableRegistersMap.at(vXAddr);
         char spriteChar = hexDigitToChar(vX);
 
+        // TODO : move exceptions outside of opcode functions
+        // to parser instead 
+        // opcodes shouldn't throw exceptions (bad architecture)
+
         if (spriteChar == '\0') {
             throw InvalidStoredSpriteIdentifierException(vX);
         }

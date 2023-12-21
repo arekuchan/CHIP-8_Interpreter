@@ -18,3 +18,11 @@ const char* InvalidStoredSpriteIdentifierException::what() const noexcept {
 const char* OutOfChip8VmRamException::what() const noexcept {
     return ("The Chip 8 VM has ran out of ram\n");
 }
+
+RegisterOverflowException::RegisterOverflowException(std::string registerName) noexcept {
+    this->registerName = registerName;
+}
+
+const char* RegisterOverflowException::what() const noexcept {
+    return ("Register: " + this->registerName + "overflowed\n").c_str();
+}
