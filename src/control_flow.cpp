@@ -26,11 +26,17 @@ void call_2nnn(std::int16_t addr) {
     Registers::set_pc_register(addr);
 }
 
-// returns true if the pc register was modified, else false
-bool se_3xkk(std::int8_t vXID, std::int8_t data) {
+// generalised function for se_3xkk and sne_3xkk
+// gets the val in var register x and compares it to data 
+// using the condition function
+// if the condition is met, skip the next instruction
+// true is retured iff the next instruction is skipped (pc register is modifed)
+// if this happens, don't modify the pc register directly after, just jump to the next instruction
+// pointed currently by the PC register
+bool skip_next_instrc_if_condition(std::int8_t vXID, std::int8_t data, auto condition) {
     auto& vXRegister = Registers::variableRegistersMap.at(vXID);
 
-    if (vXRegister == data) {
+    if (condition(vXRegister, data)) {
         auto currPCVal = Registers::get_pc_register_val();
 
         if (currPCVal + 2 > Registers::maxPCRegNum) {
@@ -43,4 +49,16 @@ bool se_3xkk(std::int8_t vXID, std::int8_t data) {
     }
 
     return false;
+}
+
+bool se_3xkk(std::int8_t vXID, std::int8_t data) {
+    auto condition = [] (std::int8_t vXReigsterVal, std::int8_t data) { return vXReigsterVal == data; };
+
+    return skip_next_instrc_if_condition(vXID, data, condition);
+}
+
+bool sne_4xkk(std::int8_t vXID, std::int8_t data) {
+    auto condition = [] (std::int8_t vXReigsterVal, std::int8_t data) { return vXReigsterVal != data; };
+
+    return skip_next_instrc_if_condition(vXID, data, condition);
 }

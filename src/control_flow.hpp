@@ -12,6 +12,10 @@ void jmp_1nnn(std::int16_t);
 
 void call_2nnn(std::int16_t);
 
+bool skip_next_instrc_if_condition(std::int8_t, std::int8_t, auto);
+
 bool se_3xkk(std::int8_t, std::int8_t);
+
+bool sne_4xkk(std::int8_t, std::int8_t);
 
 #endif
