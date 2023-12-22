@@ -27,4 +27,6 @@ bool se_5xy0(std::int8_t, std::int8_t);
 
 bool sne_9xy0(std::int8_t, std::int8_t);
 
+bool jmp_BNNN(std::int16_t);
+
 #endif

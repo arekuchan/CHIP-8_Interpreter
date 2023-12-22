@@ -2,6 +2,7 @@
 
 int main() {
     try {
+        Randomiser::init_randomiser();
         Registers::do_all_register_inits();
         Chip8VMRam::initalise_interpreter_memory();
     } catch (std::exception& e) {

@@ -6,5 +6,6 @@
 
 #include "registers.hpp"
 #include "ram.hpp"
+#include "ALU-Operations.hpp"
 
 #endif

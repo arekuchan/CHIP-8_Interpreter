@@ -70,3 +70,16 @@ bool sne_9xy0(std::int8_t vXID, std::int8_t vYID) {
 
     return skip_next_instrc_if_condition(vXID, data, ControlFlow::notEqualsCondition);
 }
+
+bool jmp_BNNN(std::int16_t addr) {
+    auto v0Val = Registers::variableRegistersMap.at(0x0);
+    int32_t result = v0Val + addr;
+
+    if (result > INT16_MAX) {
+        throw RegisterOverflowException("PC register");
+    }
+
+    Registers::set_pc_register(result);
+
+    return true;
+}

@@ -6,6 +6,13 @@
 // TODO : change var names of vXAddr to vXID
 // As they aren't addresses
 
+bool ldi_6XNN(std::int8_t vXID, std::int8_t constant) {
+    auto& registerMap = Registers::variableRegistersMap;
+    registerMap.at(vXID) = constant;
+
+    return false;
+}
+
 void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
     auto& registerMap = Registers::variableRegistersMap;
 
@@ -92,3 +99,22 @@ void add_to_i_FX1E(std::int8_t vXAddr) {
     iRegister += vX;
 }
 
+void Randomiser::init_randomiser(void) {
+    std::srand(std::time(nullptr));
+}
+
+int8_t Randomiser::rand_8_bit_num(void) {
+    // 8 bit range : [0, 255]
+    // [0 - 128, 255 - 128] -> [-128, 127]
+    return (rand() % 256) - 128;
+}
+
+bool ld_rand_CXNN(std::int8_t vXID, std::int8_t constant) {
+    auto& vXRegister = Registers::variableRegistersMap.at(vXID);
+
+    // apparently implementations typically make rand() have a range of [0, 255]
+    // but I've been using 2s complement
+    vXRegister = Randomiser::rand_8_bit_num() & constant;
+
+    return false;
+}

@@ -32,6 +32,8 @@ namespace RamOpcodes {
     void str_from_v0_to_vx_into_mem_FX55(std::int8_t);
 
     void ld_from_memory_into_v0_to_vx_FX65(std::int8_t);
+
+    bool set_addr_i_register_ANNN(std::int16_t);
 }
 
 #endif

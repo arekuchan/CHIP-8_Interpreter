@@ -116,4 +116,10 @@ namespace RamOpcodes {
             currAddr += 1;
         }
     }
+
+    bool set_addr_i_register_ANNN(std::int16_t addr) {
+        Registers::set_i_register(addr);
+        
+        return false;
+    }
 }
