@@ -52,13 +52,21 @@ bool skip_next_instrc_if_condition(std::int8_t vXID, std::int8_t data, auto cond
 }
 
 bool se_3xkk(std::int8_t vXID, std::int8_t data) {
-    auto condition = [] (std::int8_t vXReigsterVal, std::int8_t data) { return vXReigsterVal == data; };
-
-    return skip_next_instrc_if_condition(vXID, data, condition);
+    return skip_next_instrc_if_condition(vXID, data, ControlFlow::equalsCondition);
 }
 
 bool sne_4xkk(std::int8_t vXID, std::int8_t data) {
-    auto condition = [] (std::int8_t vXReigsterVal, std::int8_t data) { return vXReigsterVal != data; };
+    return skip_next_instrc_if_condition(vXID, data, ControlFlow::notEqualsCondition);
+}
 
-    return skip_next_instrc_if_condition(vXID, data, condition);
+bool se_5xy0(std::int8_t vXID, std::int8_t vYID) {
+    std::int8_t data = Registers::variableRegistersMap.at(vYID);
+    
+    return skip_next_instrc_if_condition(vXID, data, ControlFlow::equalsCondition);
+}
+
+bool sne_9xy0(std::int8_t vXID, std::int8_t vYID) {
+    std::int8_t data = Registers::variableRegistersMap.at(vYID);
+
+    return skip_next_instrc_if_condition(vXID, data, ControlFlow::notEqualsCondition);
 }
