@@ -1,16 +1,17 @@
 #include "control_flow.hpp"
+#include "OpcodeType.hpp"
 
 // TODO: all opcode functions will be changed to bool functions
 // the bool returned will indicate whether the PC register has been changed
 // from the execution of the instruction (true if has, else false)
-// if it hasn't just proceed as normal with +1 to next instruction
+// if it hasn't just proceed as normal with +opcodeSize to next instruction
 // else, don't change the program counter register
 
 // essentially the overall architecture and process should be like:
 // *** parser reads program counter and fetches current instruction ***
 // *** parser decodes current instruction and extracts its args ***
 // *** instruction is executed and returns bool ***
-// *** if true, don't update program counter, else PC += 1 ***
+// *** if true, don't update program counter, else PC += opcodeSize ***
 // *** go back to the first step ***
 
 void ret_00EE(void) {
@@ -43,7 +44,7 @@ bool skip_next_instrc_if_condition(std::int8_t vXID, std::int8_t data, auto cond
             throw RegisterOverflowException("Variable Register: " + int8ToHexString(vXID));
         }
 
-        Registers::set_pc_register(currPCVal + 2);
+        Registers::set_pc_register(currPCVal + opcodeSize);
         
         return true;
     }

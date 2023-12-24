@@ -8,7 +8,7 @@
 
 #include <ranges>
 
-#include "sprites.hpp"
+#include "display.hpp"
 #include "registers.hpp"
 #include "exceptions.hpp"
 

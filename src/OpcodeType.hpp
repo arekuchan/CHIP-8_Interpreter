@@ -6,4 +6,7 @@
 
 typedef int8_t Chip8Opcode;
 
+// in bytes
+constexpr size_t opcodeSize = 2;
+
 #endif
