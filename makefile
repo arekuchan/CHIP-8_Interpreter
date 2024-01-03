@@ -1,25 +1,45 @@
-CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra
+CXX := g++
+CXXFLAGS := -std=c++20 -Wall -Wextra -I /usr/include/eigen3
 
-SRCDIR = src
-OBJDIR = obj
-BINDIR = bin
+SRC-PARENT-DIR := src
+SRC-DIRS := emu config
 
-SOURCES = $(wildcard $(SRCDIR)/*.cpp)
-OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SOURCES))
-EXECUTABLE = $(BINDIR)/my_program
+OBJ-DIR := obj
+BIN-DIR := bin
 
-all: $(EXECUTABLE)
+# Collect all source files
+SOURCES := $(foreach srcDir, $(SRC-DIRS), $(wildcard $(addprefix $(SRC-PARENT-DIR)/, $(srcDir))/*.cpp))
 
-$(EXECUTABLE): $(OBJECTS)
-	@mkdir -p $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Generate a list of object files from source files
+OBJECTS := $(patsubst $(SRC-PARENT-DIR)/%.cpp, $(OBJ-DIR)/%.o, $(SOURCES))
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(OBJDIR)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+# Generate a list of executable targets
+PROGRAMS := $(addprefix $(BIN-DIR)/, $(SRC-DIRS))
+
+# Rule to create all programs
+all: objects programs
+
+programs: $(PROGRAMS)
+
+objects: $(OBJECTS)
+
+# Rule to link each binary from corresponding object files
+define make_binary_rule
+$(BIN-DIR)/$(1): $$(filter $(OBJ-DIR)/$(1)/%.o, $(OBJECTS))
+	@mkdir -p $$(BIN-DIR)
+	$$(CXX) $$(CXXFLAGS) $$^ -o $$@
+endef
+
+# Rule to compile each source file into object files
+$(OBJ-DIR)/%.o: $(SRC-PARENT-DIR)/%.cpp
+	@mkdir -p $(OBJ-DIR)
+	@mkdir -p $(foreach srcDir, $(SRC-DIRS), $(OBJ-DIR)/$(srcDir))
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+# Apply the rule for each program
+$(foreach program,  $(SRC-DIRS), $(eval $(call make_binary_rule,$(program))))
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJ-DIR) $(BIN-DIR)
 
 .PHONY: all clean
