@@ -4,3 +4,4 @@ I'm using c++20, and are developing on Ubuntu 22.04.3 LTS on WSL 1.
 
 Dependicies:
 - Eigen 3
+- Yaml-cpp
