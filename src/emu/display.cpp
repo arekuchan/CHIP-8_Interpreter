@@ -57,11 +57,32 @@ namespace DisplayOpcodes {
     }
 }
 
+namespace Config {
+    int get_res_field(const std::string field) {
+        YAML::Node config = YAML::LoadFile(configFilePath);
+
+        return config[resToken][field].as<int>();
+    }
+
+    int get_res_length() {
+        return Config::get_res_field(resHeightToken);
+    }
+
+    int get_res_width() {
+        return get_res_field(resWidthToken);
+    }
+}
+
 namespace Renderer {
     // constexpr int resLength;
     // const int resWidth;
 
-    Eigen::Matrix<int, internalStateHeight, internalStateWidth> internalDisplayState;
+    namespace {
+        Eigen::Matrix<int, internalStateHeight, internalStateWidth> internalDisplayState;
+
+        const int resLength = Config::get_res_length();
+        const int resWidth = Config::get_res_width();
+    }
 
     void clear_internal_display_state() {
         internalDisplayState.setZero();
@@ -73,8 +94,4 @@ namespace Renderer {
 
     void display_current_state_on_screen() {
     }
-
-    void init_resolution(int resLength, int resWidth) {
-    }
-
 }

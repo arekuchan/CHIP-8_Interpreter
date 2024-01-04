@@ -1,5 +1,8 @@
+LIB-NAME-DEPENDICIES := yaml-cpp
+HEADER-DEPENDICIES := /usr/include/eigen3 
+
 CXX := g++
-CXXFLAGS := -std=c++20 -Wall -Wextra -I /usr/include/eigen3
+CXXFLAGS := -std=c++20 -Wall -Wextra -I $(HEADER-DEPENDICIES) -l $(LIB-NAME-DEPENDICIES)
 
 SRC-PARENT-DIR := src
 SRC-DIRS := emu config
@@ -27,14 +30,14 @@ objects: $(OBJECTS)
 define make_binary_rule
 $(BIN-DIR)/$(1): $$(filter $(OBJ-DIR)/$(1)/%.o, $(OBJECTS))
 	@mkdir -p $$(BIN-DIR)
-	$$(CXX) $$(CXXFLAGS) $$^ -o $$@
+	$$(CXX) $$^ -o $$@ $$(CXXFLAGS)
 endef
 
 # Rule to compile each source file into object files
 $(OBJ-DIR)/%.o: $(SRC-PARENT-DIR)/%.cpp
 	@mkdir -p $(OBJ-DIR)
 	@mkdir -p $(foreach srcDir, $(SRC-DIRS), $(OBJ-DIR)/$(srcDir))
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) -o $@ -c $< $(CXXFLAGS)
 
 # Apply the rule for each program
 $(foreach program,  $(SRC-DIRS), $(eval $(call make_binary_rule,$(program))))
