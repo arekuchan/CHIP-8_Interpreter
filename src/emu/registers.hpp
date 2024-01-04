@@ -34,18 +34,18 @@ namespace Registers {
     extern std::int8_t vF;
 
     // size in bits
-    constexpr int iRegisterSize = 16;
+    inline constexpr int iRegisterSize = 16;
 
-    constexpr uint16_t programStartAddr = 0x200;
+    inline constexpr uint16_t programStartAddr = 0x200;
 
-    constexpr int pcRegisterSize = 16;
+    inline constexpr int pcRegisterSize = 16;
 
-    constexpr int maxPCRegNum = 65535; // (2 ** pcRegisterSize) - 1
+    inline constexpr int maxPCRegNum = 65535; // (2 ** pcRegisterSize) - 1
 
-    constexpr int minPCRegNum = 0;
+    inline constexpr int minPCRegNum = 0;
 
     // max num of elements
-    constexpr int maxCallStackSize = 16;
+    inline constexpr int maxCallStackSize = 16;
 
     std::int8_t* const varRegisters[numVarRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
 
