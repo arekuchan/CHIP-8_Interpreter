@@ -34,4 +34,14 @@ class RegisterOverflowException : public std::exception {
         virtual const char* what() const noexcept;
 };
 
+class RenderEngineWindowCreationException : public std::exception {
+    public:
+        virtual const char* what() const noexcept;
+};
+
+class RenderEngineRendererCreationException : public std::exception {
+    public:
+        virtual const char* what() const noexcept;
+};
+
 #endif

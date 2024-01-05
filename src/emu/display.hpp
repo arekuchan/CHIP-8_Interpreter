@@ -12,6 +12,9 @@
 
 #include <Eigen/Dense>
 #include <yaml-cpp/yaml.h>
+#include <SDL2/SDL.h>
+
+#include "exceptions.hpp"
 
 namespace StoredSprites {
     inline constexpr int numRowsOccupied = 5; // of each stored 
@@ -35,12 +38,12 @@ namespace Config {
 
     int get_res_field(const std::string_view);
 
-    int get_res_length(void);
+    int get_res_height(void);
 
     int get_res_width(void);
 }
 
-namespace Renderer {
+namespace RenderEngine {
     constexpr int internalStateWidth = 64;
     constexpr int internalStateHeight = 32;
 
@@ -49,6 +52,10 @@ namespace Renderer {
     void init_interal_game_state(void);
 
     void display_current_state_on_screen(int, int);
+
+    void init_render_engine(void);
+
+    void reset_display();
 }
 
 #endif

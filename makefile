@@ -1,8 +1,8 @@
-LIB-NAME-DEPENDICIES := yaml-cpp
+LIB-NAME-DEPENDICIES := -lyaml-cpp -lSDL2
 HEADER-DEPENDICIES := /usr/include/eigen3 
 
 CXX := g++
-CXXFLAGS := -std=c++20 -Wall -Wextra -I $(HEADER-DEPENDICIES) -l $(LIB-NAME-DEPENDICIES)
+CXXFLAGS := -std=c++20 -Wall -Wextra -D_REENTRANT -I $(HEADER-DEPENDICIES) $(LIB-NAME-DEPENDICIES)
 
 SRC-PARENT-DIR := src
 SRC-DIRS := emu config

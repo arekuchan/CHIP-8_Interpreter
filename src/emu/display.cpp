@@ -48,8 +48,7 @@ namespace StoredSprites {
 
 namespace DisplayOpcodes {
     void disp_clear_00E0(void) {
-        Renderer::clear_internal_display_state();
-
+        RenderEngine::reset_display();
     }
 
     void disp_draw_DXYN(std::int8_t vXID, std::int8_t vYID, int height) {
@@ -64,7 +63,7 @@ namespace Config {
         return config[resToken][field].as<int>();
     }
 
-    int get_res_length() {
+    int get_res_height() {
         return Config::get_res_field(resHeightToken);
     }
 
@@ -73,15 +72,44 @@ namespace Config {
     }
 }
 
-namespace Renderer {
+namespace RenderEngine {
     // constexpr int resLength;
     // const int resWidth;
 
     namespace {
         Eigen::Matrix<int, internalStateHeight, internalStateWidth> internalDisplayState;
 
-        const int resLength = Config::get_res_length();
+        const int resHeight = Config::get_res_height();
         const int resWidth = Config::get_res_width();
+
+        const char* windowName = "Chip 8 Emulator";
+
+        SDL_Renderer* renderer;
+        SDL_Window* window;
+    }
+
+    void init_render_engine(void) {
+        window = SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+            resWidth, resHeight, SDL_WINDOW_SHOWN);
+
+        if (!window) {
+            throw RenderEngineWindowCreationException();
+        }
+
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+        renderer = renderer ? renderer : SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+
+        if (!renderer) {
+            // can't make a software nor hardware based renderer
+            throw RenderEngineRendererCreationException();
+        }
+    }
+
+    void reset_display() {
+        clear_internal_display_state();
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1); // pitch black
+        SDL_RenderClear(renderer);
     }
 
     void clear_internal_display_state() {
@@ -93,5 +121,6 @@ namespace Renderer {
     }
 
     void display_current_state_on_screen() {
+
     }
 }

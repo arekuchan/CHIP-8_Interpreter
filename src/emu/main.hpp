@@ -8,4 +8,6 @@
 #include "ram.hpp"
 #include "ALU-Operations.hpp"
 
+#include "display.hpp"
+
 #endif

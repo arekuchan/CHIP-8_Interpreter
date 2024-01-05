@@ -26,3 +26,11 @@ RegisterOverflowException::RegisterOverflowException(std::string registerName) n
 const char* RegisterOverflowException::what() const noexcept {
     return ("Register: " + this->registerName + "overflowed\n").c_str();
 }
+
+const char* RenderEngineWindowCreationException::what() const noexcept {
+    return ("The render engine failed to create the emulator window\n");
+}
+
+const char* RenderEngineRendererCreationException::what() const noexcept {
+    return ("The render engine failed to create the renderer\n");
+}
