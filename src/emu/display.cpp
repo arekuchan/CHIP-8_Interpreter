@@ -77,15 +77,47 @@ namespace RenderEngine {
     // const int resWidth;
 
     namespace {
+        // each cell represents a pixel
         Eigen::Matrix<int, internalStateHeight, internalStateWidth> internalDisplayState;
 
-        const int resHeight = Config::get_res_height();
-        const int resWidth = Config::get_res_width();
+        // given user configs for res, the render engine will try best
+        // fit them to be compatible with the internal game state
+
+        const int resHeight = adjust_res_height(Config::get_res_height());
+        const int resWidth = adjust_res_width(Config::get_res_width());
+
+        // to scale up the sprites/screen, each internal cell is scaled up such that
+        // the cells dimensions are multiplied by the appropriate scale
+        const int resHeightScale = resHeight / internalStateHeight; 
+        const int resWidthScale = resWidth / internalStateWidth;
 
         const char* windowName = "Chip 8 Emulator";
 
         SDL_Renderer* renderer;
         SDL_Window* window;
+    }
+
+    // isHeight == true if height is being passed, else false if width is being passed
+    int adjust_res_dimension(int resDimLen, bool isHeight) {
+        int interalDimLen = isHeight ? internalStateHeight : internalStateWidth;
+
+        if (resDimLen < interalDimLen) {
+            return interalDimLen;
+        } else if (resDimLen % interalDimLen != 0) {
+            int scale = resDimLen / interalDimLen;
+
+            return interalDimLen * scale;
+        }
+
+        return resDimLen;
+    }
+
+    int adjust_res_height(int resHeight) {
+        return adjust_res_dimension(resHeight, true);
+    }
+
+    int adjust_res_width(int resWidth) {
+        return adjust_res_dimension(resWidth, false);
     }
 
     void init_render_engine(void) {
@@ -108,7 +140,7 @@ namespace RenderEngine {
     void reset_display() {
         clear_internal_display_state();
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1); // pitch black
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE); // pitch black
         SDL_RenderClear(renderer);
     }
 
@@ -120,7 +152,30 @@ namespace RenderEngine {
         internalDisplayState.setZero();
     }
 
-    void display_current_state_on_screen() {
+    void set_sdl_rect(SDL_Rect* rect, int x, int y, int w, int h) {
+        rect->x = x;
+        rect->y = y;
+        rect->w = w;
+        rect->h = h;
+    }
 
+    void display_current_state_on_screen() {
+        for (int i : std::views::iota(0, internalStateHeight)) {
+            for (int j : std::views::iota(0, internalStateWidth)) {
+                SDL_Rect rect;
+                set_sdl_rect(&rect, i * resWidthScale, j * resHeightScale, 
+                    resWidthScale, resHeightScale);
+
+                if (internalDisplayState(i, j) == 1) {
+                    // white
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+                } else {
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                }
+
+                SDL_RenderFillRect(renderer, &rect);
+                SDL_RenderPresent(renderer);
+            }
+        }
     }
 }

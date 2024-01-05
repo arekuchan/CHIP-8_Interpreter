@@ -9,6 +9,7 @@
 #include <string>
 #include <string_view>
 #include <iostream>
+#include <ranges>
 
 #include <Eigen/Dense>
 #include <yaml-cpp/yaml.h>
@@ -56,6 +57,12 @@ namespace RenderEngine {
     void init_render_engine(void);
 
     void reset_display();
+
+    int adjust_res_dimension(int, bool);
+
+    int adjust_res_height(int);
+
+    int adjust_res_width(int);
 }
 
 #endif
