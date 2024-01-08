@@ -51,8 +51,10 @@ namespace DisplayOpcodes {
         RenderEngine::reset_display();
     }
 
-    void disp_draw_DXYN(std::int8_t vXID, std::int8_t vYID, int height) {
+    void disp_draw_DXYN(std::int8_t xCoord, std::int8_t yCoord, std::uint8_t height) {
+        std::unique_ptr<Sprites::SpriteMatrix> spriteMatrix = Registers::get_sprite(height);
 
+        RenderEngine::xor_sprite_on_screen(*spriteMatrix, xCoord, yCoord);
     }
 }
 
@@ -95,6 +97,22 @@ namespace RenderEngine {
 
         SDL_Renderer* renderer;
         SDL_Window* window;
+
+        void clear_internal_display_state() {
+            internalDisplayState.setZero();
+        }
+
+        void init_interal_game_state() {
+            internalDisplayState.setZero();
+        }
+
+        int get_internal_disp_cell(int row, int col) {
+            return internalDisplayState(row, col);
+        }
+
+        void set_internal_disp_cell(int row, int col, int val) {
+            internalDisplayState(row, col) = val;
+        }
     }
 
     // isHeight == true if height is being passed, else false if width is being passed
@@ -135,6 +153,8 @@ namespace RenderEngine {
             // can't make a software nor hardware based renderer
             throw RenderEngineRendererCreationException();
         }
+
+        init_interal_game_state();
     }
 
     void reset_display() {
@@ -142,14 +162,6 @@ namespace RenderEngine {
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE); // pitch black
         SDL_RenderClear(renderer);
-    }
-
-    void clear_internal_display_state() {
-        internalDisplayState.setZero();
-    }
-
-    void init_interal_game_state() {
-        internalDisplayState.setZero();
     }
 
     void set_sdl_rect(SDL_Rect* rect, int x, int y, int w, int h) {
@@ -175,6 +187,27 @@ namespace RenderEngine {
 
                 SDL_RenderFillRect(renderer, &rect);
                 SDL_RenderPresent(renderer);
+            }
+        }
+    }
+
+    void xor_sprite_on_screen(const Sprites::SpriteMatrix& sprite, int spriteXCoord, int spriteYCoord) {
+        int spriteHeight = sprite.rows();
+        int spriteWidth = sprite.cols();
+
+        for (int i : std::views::iota(0, spriteHeight)) {
+            // modulo for bounds and wrap around functionality
+            int dispRowCoord = (spriteYCoord + i) % internalStateHeight;
+
+            for (int j : std::views::iota(0, spriteWidth)) {
+                int dispColCoord = (spriteXCoord + j) % internalStateWidth;
+
+                int currCell = get_internal_disp_cell(dispRowCoord, dispColCoord);
+                int spriteCell = sprite(i, j);
+
+                int xorVal = Misc::logical_xor(currCell, spriteCell);
+
+                set_internal_disp_cell(dispRowCoord, dispColCoord, xorVal);
             }
         }
     }

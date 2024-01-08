@@ -9,6 +9,7 @@
 #include <ranges>
 
 #include "display.hpp"
+
 #include "registers.hpp"
 #include "exceptions.hpp"
 

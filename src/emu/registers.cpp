@@ -53,6 +53,34 @@ namespace Registers {
         }
     }
 
+    bool msb_is_set(std::byte someByte) {
+        if ((someByte & std::byte{0x80}) == std::byte{0x80}) {
+            return true;
+        }
+
+        return false;
+    }
+
+    std::unique_ptr<Sprites::SpriteMatrix> get_sprite(unsigned int height) {
+        // yes passing Sprites::spriteWidth should be redundant but compiler-chan gets
+        // very mad if you dont
+        auto spriteMatrix = std::make_unique<Sprites::SpriteMatrix>(height, Sprites::spriteWidth);
+        auto currRowMemLoc = get_i_register();
+
+        for (int i : std::views::iota(0, static_cast<int>(height))) {
+            std::byte rowByte = Chip8VMRam::read_byte_from_ram(currRowMemLoc);
+
+            for (int j : std::views::iota(0, Sprites::spriteWidth)) {
+                (*spriteMatrix)(i, j) = msb_is_set(rowByte) ? 1 : 0;
+                rowByte <<= 1;
+            }
+
+            currRowMemLoc += 1;
+        }
+
+        return spriteMatrix;
+    }
+
     int8_t& get_carry_flag_register(void) {
         auto& registerMap = Registers::variableRegistersMap;
         

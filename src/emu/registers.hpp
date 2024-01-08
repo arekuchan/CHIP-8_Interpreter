@@ -5,8 +5,14 @@
 #include <unordered_map>
 #include <tuple>
 #include <functional>
+
 #include <cstdint>
 #include <cmath>
+#include <memory>
+
+#include <Eigen/Dense>
+
+#include "ram.hpp"
 
 // registers
 namespace Registers {
@@ -73,6 +79,10 @@ namespace Registers {
     std::uint16_t pop_from_call_stack(void);
 
     bool i_register_wont_overflow(int);
+
+    bool msb_is_set(std::byte);
+
+    std::unique_ptr<Sprites::SpriteMatrix> get_sprite(unsigned int);
 }
 
 #endif

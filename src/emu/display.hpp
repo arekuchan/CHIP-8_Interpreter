@@ -15,13 +15,25 @@
 #include <yaml-cpp/yaml.h>
 #include <SDL2/SDL.h>
 
+#include <memory>
 #include "exceptions.hpp"
+#include "misc.hpp"
+
+namespace Sprites {
+    inline constexpr int spriteWidth = 8;
+
+    using SpriteMatrix = Eigen::Matrix<int, Eigen::Dynamic, spriteWidth>;
+}
 
 namespace StoredSprites {
     inline constexpr int numRowsOccupied = 5; // of each stored 
 
     extern const std::map<char, std::array<std::byte, StoredSprites::numRowsOccupied>> storedSpriteMap;
 }
+
+// this include is here on purpose, the program won't compile if it isn't in this order (lol)
+// *don't do cyclic dependicies kids*
+#include "registers.hpp"
 
 namespace DisplayOpcodes {
     void disp_clear_00E0(void);
@@ -48,11 +60,9 @@ namespace RenderEngine {
     constexpr int internalStateWidth = 64;
     constexpr int internalStateHeight = 32;
 
-    void clear_internal_display_state(void);
-
-    void init_interal_game_state(void);
-
     void display_current_state_on_screen(int, int);
+
+    void xor_sprite_on_screen(const Sprites::SpriteMatrix&, int, int);
 
     void init_render_engine(void);
 
