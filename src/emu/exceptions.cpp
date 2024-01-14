@@ -34,3 +34,11 @@ const char* RenderEngineWindowCreationException::what() const noexcept {
 const char* RenderEngineRendererCreationException::what() const noexcept {
     return ("The render engine failed to create the renderer\n");
 }
+
+SDLWaitException::SDLWaitException(std::string sdlErrMsg) noexcept {
+    this->sdlErrMsg = sdlErrMsg;
+}
+
+const char* SDLWaitException::what() const noexcept {
+    return ("The following error: " + this->sdlErrMsg + "occurred while waiting for an sdl event" + "\n").c_str();
+}

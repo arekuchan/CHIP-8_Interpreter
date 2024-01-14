@@ -44,4 +44,14 @@ class RenderEngineRendererCreationException : public std::exception {
         virtual const char* what() const noexcept;
 };
 
+class SDLWaitException : public std::exception {
+    private:
+        std::string sdlErrMsg;
+
+    public:
+        SDLWaitException(std::string) noexcept;
+
+        virtual const char* what() const noexcept;
+};
+
 #endif
