@@ -66,7 +66,7 @@ namespace Registers {
 
     std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t, std::int8_t);
 
-    std::int16_t& get_i_register(void);
+    std::int16_t get_i_register_val(void);
 
     std::uint16_t get_pc_register_val(void);
 

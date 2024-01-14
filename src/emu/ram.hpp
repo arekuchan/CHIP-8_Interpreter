@@ -18,7 +18,7 @@ namespace Chip8VMRam {
 
     void init_memory_with_stored_sprites(const std::map<char, std::array<std::byte, StoredSprites::numRowsOccupied>>&);
 
-    void write_byte_to_ram(std::byte, auto);
+    void write_byte_to_ram(std::byte, int16_t);
 
     std::byte read_byte_from_ram(auto);
 }

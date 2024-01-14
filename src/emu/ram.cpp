@@ -30,7 +30,7 @@ namespace Chip8VMRam {
         }
     }
 
-    void write_byte_to_ram(std::byte data, auto addr) {
+    void write_byte_to_ram(std::byte data, int16_t addr) {
         chip8VMRam[addr] = data;
     }
 
@@ -90,7 +90,7 @@ namespace RamOpcodes {
 
     // vx inclusive
     void str_from_v0_to_vx_into_mem_FX55(std::int8_t vXId) {
-        auto currAddr = Registers::get_i_register();
+        auto currAddr = Registers::get_i_register_val();
 
         check_enough_ram_to_access(currAddr, currAddr + vXId);
 
@@ -104,7 +104,7 @@ namespace RamOpcodes {
 
     // vx inclusive
     void ld_from_memory_into_v0_to_vx_FX65(std::int8_t vXId) {
-        auto currAddr = Registers::get_i_register();
+        auto currAddr = Registers::get_i_register_val();
 
         check_enough_ram_to_access(currAddr, currAddr + vXId);
 

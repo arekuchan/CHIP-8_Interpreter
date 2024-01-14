@@ -65,7 +65,7 @@ namespace Registers {
         // yes passing Sprites::spriteWidth should be redundant but compiler-chan gets
         // very mad if you dont
         auto spriteMatrix = std::make_unique<Sprites::SpriteMatrix>(height, Sprites::spriteWidth);
-        auto currRowMemLoc = get_i_register();
+        auto currRowMemLoc = get_i_register_val();
 
         for (int i : std::views::iota(0, static_cast<int>(height))) {
             std::byte rowByte = Chip8VMRam::read_byte_from_ram(currRowMemLoc);
@@ -95,11 +95,8 @@ namespace Registers {
 
         return std::tuple<int8_t&, int8_t&>{vX, vY};
     }
-    
 
-    // TODO : probably shouldnt be returning a reference,
-    // it's breaking encapsulation
-    std::int16_t& get_i_register(void) {
+    std::int16_t get_i_register_val(void) {
         return Registers::iRegister;
     }
 

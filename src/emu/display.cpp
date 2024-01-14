@@ -70,7 +70,7 @@ namespace Config {
     }
 
     int get_res_width() {
-        return get_res_field(resWidthToken);
+        return Config::get_res_field(resWidthToken);
     }
 }
 
