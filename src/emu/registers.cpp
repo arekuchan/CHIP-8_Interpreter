@@ -1,25 +1,25 @@
 #include "registers.hpp"
 
 namespace Registers {
-    std::int8_t v0;
-    std::int8_t v1;
-    std::int8_t v2;
-    std::int8_t v3;
+    VarRegisterWord v0;
+    VarRegisterWord v1;
+    VarRegisterWord v2;
+    VarRegisterWord v3;
 
-    std::int8_t v4;
-    std::int8_t v5;
-    std::int8_t v6;
-    std::int8_t v7;
+    VarRegisterWord v4;
+    VarRegisterWord v5;
+    VarRegisterWord v6;
+    VarRegisterWord v7;
 
-    std::int8_t v8;
-    std::int8_t v9;
-    std::int8_t vA;
-    std::int8_t vB;
+    VarRegisterWord v8;
+    VarRegisterWord v9;
+    VarRegisterWord vA;
+    VarRegisterWord vB;
 
-    std::int8_t vC;
-    std::int8_t vD;
-    std::int8_t vE;
-    std::int8_t vF;
+    VarRegisterWord vC;
+    VarRegisterWord vD;
+    VarRegisterWord vE;
+    VarRegisterWord vF;
 
     // 16 bit memory address register
     // TODO: this should be std::uint16_t

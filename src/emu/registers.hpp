@@ -16,28 +16,31 @@
 
 // registers
 namespace Registers {
+    // TODO : change code to use this alias
+    using VarRegisterWord = std::int8_t;
+
     constexpr int numVarRegisters = 16;
     constexpr std::int8_t carryFlagRegisterNum = 0xF;
 
-    extern std::int8_t v0;
-    extern std::int8_t v1;
-    extern std::int8_t v2;
-    extern std::int8_t v3;
+    extern VarRegisterWord v0;
+    extern VarRegisterWord v1;
+    extern VarRegisterWord v2;
+    extern VarRegisterWord v3;
 
-    extern std::int8_t v4;
-    extern std::int8_t v5;
-    extern std::int8_t v6;
-    extern std::int8_t v7;
+    extern VarRegisterWord v4;
+    extern VarRegisterWord v5;
+    extern VarRegisterWord v6;
+    extern VarRegisterWord v7;
 
-    extern std::int8_t v8;
-    extern std::int8_t v9;
-    extern std::int8_t vA;
-    extern std::int8_t vB;
+    extern VarRegisterWord v8;
+    extern VarRegisterWord v9;
+    extern VarRegisterWord vA;
+    extern VarRegisterWord vB;
 
-    extern std::int8_t vC;
-    extern std::int8_t vD;
-    extern std::int8_t vE;
-    extern std::int8_t vF;
+    extern VarRegisterWord vC;
+    extern VarRegisterWord vD;
+    extern VarRegisterWord vE;
+    extern VarRegisterWord vF;
 
     // size in bits
     inline constexpr int iRegisterSize = 16;
@@ -65,6 +68,11 @@ namespace Registers {
     std::int8_t& get_carry_flag_register(void);
 
     std::tuple<int8_t&, int8_t&> get_vx_and_vy(std::int8_t, std::int8_t);
+
+    // TODO : get rid of these set/get register functions
+    // Initally I thought it would be good encapsulation
+    // but really it's a pointless abstraction; no need for
+    // variable access that isn't across multiple threads
 
     std::int16_t get_i_register_val(void);
 
