@@ -10,6 +10,8 @@
 #include <chrono>
 #include <ratio>
 
+#include <SDL2/SDL.h>
+
 #include "registers.hpp"
 
 // A timer class specifically for chip 8,
@@ -35,8 +37,9 @@ class Chip8Timer {
         const std::chrono::duration<double> timerDelay = (1 / hertz) * std::chrono::duration<double>();
 
         const std::jthread decThread {[this]() {
+            std::unique_lock lk {awakeMutex};
+
             while (true) {
-                std::unique_lock lk {awakeMutex};
                 awakeCV.wait(lk, [this]{ return timerAwake; });
 
                 if (exitTimer) {
@@ -48,31 +51,32 @@ class Chip8Timer {
                 }
 
                 timerVal--;
+
+                lk.release();
                 std::this_thread::sleep_for(timerDelay);
+                lk.lock();
             }
         }};
 
         void beep(void) {
-            // TODO : finish this
-        }
-
-        void wait_for_timer_awake(void) {
-            // TODO : finish this
         }
 
     public:
         Chip8Timer(uint, VarRegisterWord, bool);
 
         void set_val(VarRegisterWord val) {
+            std::unique_lock lk {awakeMutex};
             timerVal = val;
         }
 
         VarRegisterWord read_val(void) {
+            std::unique_lock lk {awakeMutex};
             return timerVal;
         }
 
         void start_timer(void) {
-            timerAwake.release();
+            std::unique_lock lk {awakeMutex};
+            timerAwake = true;
         }
 };
 

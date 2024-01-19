@@ -1,6 +1,7 @@
 #include "main.hpp"
 
 int main() {
+    // TODO : set up SDL init
     try {
         Randomiser::init_randomiser();
         Registers::do_all_register_inits();
