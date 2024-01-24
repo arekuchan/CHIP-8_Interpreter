@@ -35,10 +35,30 @@ const char* RenderEngineRendererCreationException::what() const noexcept {
     return ("The render engine failed to create the renderer\n");
 }
 
-SDLWaitException::SDLWaitException(std::string sdlErrMsg) noexcept {
+SDLException::SDLException(const char* sdlErrMsg) noexcept {
     this->sdlErrMsg = sdlErrMsg;
 }
 
-const char* SDLWaitException::what() const noexcept {
-    return ("The following error: " + this->sdlErrMsg + "occurred while waiting for an sdl event" + "\n").c_str();
+std::string SDLException::name() const noexcept {
+    return std::string("SDLException");
+}
+
+const char* SDLException::what() const noexcept {
+    return ("A " + this->name() + "occurred with the following error: " + this->sdlErrMsg + "\n").c_str();
+}
+
+std::string SDLWaitException::name() const noexcept {
+    return std::string("SDLWaitException");
+}
+
+std::string SDLLoadWavException::name() const noexcept {
+    return std::string("SDLLoadWavException");
+}
+
+std::string SDLOpenAudioDevException::name() const noexcept {
+    return std::string("SDLOpenAudioDevException");
+}
+
+std::string SDLQueueAudioException::name() const noexcept {
+    return std::string("SDLQueueAudioException");
 }

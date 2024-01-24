@@ -13,15 +13,13 @@ namespace Config {
 
     const std::string beepToken = "Chip-8-Beep-Sound";
 
-
-
     int get_res_field(const std::string_view);
 
     int get_res_height(void);
 
     int get_res_width(void);
 
-    std::string get_beep_sound_path(void)
+    std::string get_beep_sound_path(void);
 }
 
 #endif 

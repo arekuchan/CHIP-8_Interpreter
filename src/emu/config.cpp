@@ -18,6 +18,6 @@ namespace Config {
     }
 
     std::string get_beep_sound_path() {
-        return YAML::LoadFile(configFilePath)[beepToken];
+        return YAML::LoadFile(configFilePath)[beepToken].as<std::string>();
     }
 }

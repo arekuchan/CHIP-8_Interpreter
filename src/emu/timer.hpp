@@ -13,13 +13,37 @@
 #include <SDL2/SDL.h>
 
 #include "registers.hpp"
+#include "config.hpp"
 
 // A timer class specifically for chip 8,
 // not meant to be a general timer class
 class Chip8Timer {
-    using VarRegisterWord = Registers::VarRegisterWord;
-
     private:
+        inline static SDL_AudioSpec audioSpec;
+        inline static Uint32 audioLen;
+        inline static Uint8* audioBuf;
+
+        inline static SDL_AudioDeviceID deviceID;
+
+        friend class timerStaticConstr;
+
+        class timerStaticConstr {
+            timerStaticConstr() {
+                auto beepFilePath = Config::get_beep_sound_path();
+
+                if (!SDL_LoadWAV(beepFilePath.c_str(), &audioSpec, &audioBuf, &audioLen)) {
+                    throw SDLLoadWavException(SDL_GetError());
+                } else if (!(deviceID = SDL_OpenAudioDevice(NULL, 0, &audioSpec, NULL, 0))) {
+                    throw SDLOpenAudioDevException(SDL_GetError());
+                }
+            }
+        };
+
+        static timerStaticConstr staticConstr;
+
+    protected:
+        using VarRegisterWord = Registers::VarRegisterWord;
+
         std::atomic<bool> exitTimer {false};
 
         bool timerAwake {false};
@@ -46,10 +70,10 @@ class Chip8Timer {
                     break;
                 } else if (timerVal == 0) {
                     timerAwake = false;
-                    if (playSound) { beep(); }
                     continue;
                 }
 
+                if (playSound) { beep(); }
                 timerVal--;
 
                 lk.release();
@@ -58,8 +82,7 @@ class Chip8Timer {
             }
         }};
 
-        void beep(void) {
-        }
+        void beep(void);
 
     public:
         Chip8Timer(uint, VarRegisterWord, bool);
@@ -69,7 +92,7 @@ class Chip8Timer {
             timerVal = val;
         }
 
-        VarRegisterWord read_val(void) {
+        VarRegisterWord get_val(void) {
             std::unique_lock lk {awakeMutex};
             return timerVal;
         }
@@ -79,5 +102,33 @@ class Chip8Timer {
             timerAwake = true;
         }
 };
+
+class Chip8SoundTimer : public Chip8Timer {
+    public:
+        Chip8SoundTimer(uint, VarRegisterWord);
+};
+
+class Chip8DelayTimer : public Chip8Timer {
+    public:
+        Chip8DelayTimer(uint, VarRegisterWord);
+};
+
+namespace Timers {
+    inline constexpr uint hertz = 60;
+    inline constexpr Registers::VarRegisterWord initVal = 0x00;
+
+    Chip8SoundTimer soundTimer{hertz, initVal};
+    Chip8DelayTimer delayTimer{hertz, initVal};
+}
+
+namespace TimerOps {
+    void set_timer(std::int8_t, Chip8Timer&); 
+
+    void set_delay_timer_FX15(std::int8_t);
+
+    void set_sound_timer_FX18(std::int8_t); 
+
+    void set_vx_to_delay_timer_FX07(std::int8_t);
+}
 
 #endif
