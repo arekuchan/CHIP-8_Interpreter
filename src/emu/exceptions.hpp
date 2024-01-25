@@ -5,7 +5,9 @@
 #include <exception>
 #include <sstream>
 #include <iomanip>
+
 #include <cstdint>
+#include <typeinfo>
 
 std::string int8ToHexString(std::int8_t);
 
@@ -44,14 +46,44 @@ class RenderEngineRendererCreationException : public std::exception {
         virtual const char* what() const noexcept;
 };
 
-class SDLWaitException : public std::exception {
-    private:
-        std::string sdlErrMsg;
+class SDLException : public std::exception {
+    protected:
+        const char* sdlErrMsg;
 
     public:
-        SDLWaitException(std::string) noexcept;
+        SDLException(const char*) noexcept;
 
         virtual const char* what() const noexcept;
+
+        virtual std::string name() const noexcept;
+};
+
+class SDLWaitException : public SDLException {
+    using SDLException::SDLException;
+
+    public:
+        std::string name() const noexcept;
+};
+
+class SDLLoadWavException : public SDLException {
+    using SDLException::SDLException;
+    
+    public:
+        std::string name() const noexcept;
+};
+
+class SDLOpenAudioDevException : public SDLException {
+    using SDLException::SDLException;
+
+    public:
+        std::string name() const noexcept;
+};
+
+class SDLQueueAudioException : public SDLException {
+    using SDLException::SDLException;
+
+    public:
+        std::string name() const noexcept;
 };
 
 #endif

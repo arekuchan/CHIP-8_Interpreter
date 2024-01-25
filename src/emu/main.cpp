@@ -2,6 +2,8 @@
 
 int main() {
     try {
+        SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO); // TODO : this needs better error handling
+
         Randomiser::init_randomiser();
         Registers::do_all_register_inits();
         Chip8VMRam::initalise_interpreter_memory();

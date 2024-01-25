@@ -14,10 +14,11 @@
 #include <Eigen/Dense>
 #include <yaml-cpp/yaml.h>
 #include <SDL2/SDL.h>
-
 #include <memory>
+
 #include "exceptions.hpp"
 #include "misc.hpp"
+#include "config.hpp"
 
 namespace Sprites {
     inline constexpr int spriteWidth = 8;
@@ -39,21 +40,6 @@ namespace DisplayOpcodes {
     void disp_clear_00E0(void);
 
     void disp_draw_DXYN(std::int8_t, std::int8_t, int);
-}
-
-namespace Config {
-    const std::string configFilePath = "../config/config.yaml";
-
-    const std::string resToken = "Chip-8-Display-Resolution";
-
-    const std::string resWidthToken = "Width";
-    const std::string resHeightToken = "Height";
-
-    int get_res_field(const std::string_view);
-
-    int get_res_height(void);
-
-    int get_res_width(void);
 }
 
 namespace RenderEngine {

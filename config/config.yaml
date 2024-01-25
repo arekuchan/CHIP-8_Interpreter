@@ -1,3 +1,5 @@
 Chip-8-Display-Resolution:
     Width: 1920
     Height: 1080
+
+Chip-8-Beep-Sound: "./beep.wav"
