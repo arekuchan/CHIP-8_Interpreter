@@ -47,8 +47,9 @@ namespace StoredSprites {
 }
 
 namespace DisplayOpcodes {
-    void disp_clear_00E0(void) {
+    bool disp_clear_00E0(void) {
         RenderEngine::reset_display();
+        return false;
     }
 
     void disp_draw_DXYN(std::int8_t xCoord, std::int8_t yCoord, std::uint8_t height) {

@@ -37,7 +37,7 @@ namespace StoredSprites {
 #include "registers.hpp"
 
 namespace DisplayOpcodes {
-    void disp_clear_00E0(void);
+    bool disp_clear_00E0(void);
 
     void disp_draw_DXYN(std::int8_t, std::int8_t, int);
 }

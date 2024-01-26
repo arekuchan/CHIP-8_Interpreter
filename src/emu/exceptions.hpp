@@ -9,7 +9,10 @@
 #include <cstdint>
 #include <typeinfo>
 
-std::string int8ToHexString(std::int8_t);
+
+namespace Parser {
+    std::string int8ToHexString(std::int8_t);
+}
 
 class InvalidStoredSpriteIdentifierException : public std::exception {
     private:
@@ -84,6 +87,30 @@ class SDLQueueAudioException : public SDLException {
 
     public:
         std::string name() const noexcept;
+};
+
+class OpcodeException : public std::exception {
+    protected:
+        std::string opcodeName;
+
+    public:
+        OpcodeException(std::string opcodeName) noexcept;
+
+        virtual const char* what() const noexcept = 0;
+};
+
+class UnsupportedOpcodeException : public OpcodeException {
+    using OpcodeException::OpcodeException;
+
+    public:
+        virtual const char* what() const noexcept;
+};
+
+class InvalidOpcodeException : public OpcodeException {
+    using OpcodeException::OpcodeException;
+
+    public:
+        virtual const char* what() const noexcept;
 };
 
 #endif

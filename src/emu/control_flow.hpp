@@ -18,7 +18,7 @@ namespace Conditions {
 }
 
 namespace ControlFlowOps {
-    void ret_00EE(void);
+    bool ret_00EE(void);
 
     void jmp_1nnn(std::int16_t);
 

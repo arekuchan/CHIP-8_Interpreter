@@ -1,14 +1,7 @@
 #include "exceptions.hpp"
 
-std::string int8ToHexString(std::int8_t bitPttrn) {
-    std::stringstream stream;
-    stream << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(bitPttrn);
-
-    return stream.str();
-}
-
 InvalidStoredSpriteIdentifierException::InvalidStoredSpriteIdentifierException(std::int8_t invalidIdentifier) noexcept {
-    this->invalidIdentifier = int8ToHexString(invalidIdentifier);
+    this->invalidIdentifier = Parser::int8ToHexString(invalidIdentifier);
 }
 
 const char* InvalidStoredSpriteIdentifierException::what() const noexcept {
@@ -61,4 +54,16 @@ std::string SDLOpenAudioDevException::name() const noexcept {
 
 std::string SDLQueueAudioException::name() const noexcept {
     return std::string("SDLQueueAudioException");
+}
+
+OpcodeException::OpcodeException(std::string opcodeName) noexcept {
+    this->opcodeName = opcodeName;
+}
+
+const char* UnsupportedOpcodeException::what() const noexcept {
+    return ("An unsupported opcode: " + this->opcodeName + "  was attempted to be exectued\n").c_str();;
+}
+
+const char* InvalidOpcodeException::what() const noexcept {
+    return ("An invalid opcode: " + this->opcodeName + "  was attempted to be executed\n").c_str();
 }

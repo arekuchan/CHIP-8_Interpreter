@@ -2,7 +2,7 @@
 #include "OpcodeType.hpp"
 
 namespace ControlFlowOps {
-    // TODO: all opcode functions will be changed to bool functions
+    // TODO: all opcode functions (in all sourec files) will be changed to bool functions
     // the bool returned will indicate whether the PC register has been changed
     // from the execution of the instruction (true if has, else false)
     // if it hasn't just proceed as normal with +opcodeSize to next instruction
@@ -15,8 +15,9 @@ namespace ControlFlowOps {
     // *** if true, don't update program counter, else PC += opcodeSize ***
     // *** go back to the first step ***
 
-    void ret_00EE(void) {
+    bool ret_00EE(void) {
         Registers::set_pc_register(Registers::pop_from_call_stack());
+        return true;
     }
 
     void jmp_1nnn(std::int16_t addr) {
