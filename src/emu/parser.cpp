@@ -1,7 +1,7 @@
 #include "parser.hpp"
 
 namespace Parser {
-    std::string int8ToHexDigits(std::int8_t bitPttrn, bool includePrefix) {
+    std::string uint8ToHexDigits(std::uint8_t bitPttrn, bool includePrefix) {
         std::stringstream stream;
 
         if (includePrefix) {
@@ -13,12 +13,12 @@ namespace Parser {
         return stream.str();
     }
     
-    std::string int8ToHexDigitsOnly(std::int8_t bitPttrn) {
-        return int8ToHexDigits(bitPttrn, false);
+    std::string uint8ToHexDigitsOnly(std::uint8_t bitPttrn) {
+        return uint8ToHexDigits(bitPttrn, false);
     }
 
     // returns w/ 0x prefix
-    std::string int8ToHexString(std::int8_t bitPttrn) {
+    std::string uint8ToHexString(std::uint8_t bitPttrn) {
         return int8ToHexDigits(bitPttrn, true);
     }
 
@@ -50,13 +50,13 @@ namespace Parser {
 
     int8_t get_half_of_byte(std::byte& fullByte, bool leftHalf) {
 	    if (leftHalf) {
-	        return (static_cast<int8_t>(fullByte) >> 4) & 0x0F;
+	        return (static_cast<uint8_t>(fullByte) >> 4) & 0x0F;
 	    } else {
-	        return static_cast<int8_t>(fullByte) & 0x0F;
+	        return static_cast<uint8_t>(fullByte) & 0x0F;
 	    }	
     }
 
-    void init_decoding_args(std::vector<int8_t>& args, Chip8Opcode opcode) {
+    void init_decoding_args(std::vector<uint8_t>& args, Chip8Opcode opcode) {
     	bool getLeftHalf = true;
         int numArgs = opcodeSize * 2; // 2 args in a byte
 
@@ -74,12 +74,12 @@ namespace Parser {
 	    }
     }
 
-    std::string constr_opcode_str(std::vector<int8_t>& args) {
+    std::string constr_opcode_str(std::vector<uint8_t>& args) {
         std::string opcodeStr;
         opcodeStr.reserve(args.size());
 
         for (auto& arg : args) {
-            std::string hexArg = int8ToHexDigitsOnly(arg);
+            std::string hexArg = uint8ToHexDigitsOnly(arg);
             truncate_prefix_zeros(hexArg);
 
             opcodeStr.append(hexArg);
@@ -88,21 +88,21 @@ namespace Parser {
         return opcodeStr;
     }
 
-    bool decode_and_execute_type_0_arg1_is_0(int8_t& arg2, int8_t& arg3) {
+    bool decode_and_execute_type_0_arg1_is_0(uint8_t& arg2, uint8_t& arg3) {
         switch (arg3) {
             case 0x0:
                 return DisplayOpcodes::disp_clear_00E0();
             case 0xE:
                 return ControlFlowOps::ret_00EE();
             default:
-                std::vector<int8_t> args = {0, 0, arg2, arg3};
+                std::vector<uint8_t> args = {0, 0, arg2, arg3};
                 std::string opcodeStr = constr_opcode_str(args);
 
                 throw InvalidOpcodeException(opcodeStr);
         }
     }
     
-    bool decode_and_execute_type_0(std::vector<int8_t>& args) {
+    bool decode_and_execute_type_0(std::vector<uint8_t>& args) {
 	    switch (args[1]) {
             case 0x0:
                 return decode_and_execute_type_0_arg1_is_0(args[2], args[3]);
@@ -112,16 +112,46 @@ namespace Parser {
         }
     }
 
+    uint16_t concat_args_excl_first(std::vector<uint8_t>& args) {
+        uint16_t result = 0;
+        unsigned int numActualArgs = args.length() - 1; // excl args[0] which is opcode type
+
+        // think of each arg as a list of bits of opcodeArgBitSize
+        // goal: concat these lists, prepend zeros and store in result
+        // divide result into opcodeArgBitSize sections
+        // numActualArgs - i tells you what section is should be in (section 0 is on right most side)
+        // multiplying by opcodeArgBitSize shifts it to the right offset
+
+        for (int i : std::views::iota(1, numActualArgs + 1) {
+            int shiftAmt = (numActualArgs - i) * opcodeArgBitSize;
+
+            result |= static_cast<uint16_t>(args[i]) << shiftAmt; 
+        }
+
+        return result;
+    }
+
+    bool decode_and_execute_type_1(std::vector<uint8_t>& args) {
+        uint16_t addr = concat_args_excl_first(args);
+
+        return jmp_1nnn(addr);
+    }
+
+    bool decode_and_execute_type_2(std::vector<uint8_t>& args) {
+        uint16_t addr = concat_args_excl_first(args);
+
+        return call_2nnn(addr);
+    }
+
     // args must be init'd
-    bool decode_and_execute_helper(std::vector<int8_t>& args) {
+    bool decode_and_execute_helper(std::vector<uint8_t>& args) {
 	    switch (args[0]) {
 	        case 0x0:
 	    	    return decode_and_execute_type_0(args);
 	        case 0x1:
-                // TODO: finish this and the rest
-	    	    break;
+                return decode_and_execute_type_1(args);
 	        case 0x2:
-	    	    break;
+                return decode_and_execute_type_2(args);
 	        case 0x3:
 	    	    break;
 	        case 0x4:
@@ -157,7 +187,7 @@ namespace Parser {
     }
 
     bool decode_and_execute(Chip8Opcode opcode) {
-	    std::vector<int8_t> args;
+	    std::vector<uint8_t> args;
 
 	    // for all helper functions, the following
 	    // convention will be followed

@@ -20,9 +20,9 @@ namespace Conditions {
 namespace ControlFlowOps {
     bool ret_00EE(void);
 
-    void jmp_1nnn(std::int16_t);
+    bool jmp_1nnn(std::uint16_t);
 
-    void call_2nnn(std::int16_t);
+    bool call_2nnn(std::uint16_t);
 
     bool se_3xkk(std::int8_t, std::int8_t);
 

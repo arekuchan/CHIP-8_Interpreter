@@ -57,7 +57,7 @@ namespace ALU_Ops {
     }
 
     // addr is 4 bits in opcode, but min int size is 8 bits in c++ stdlib
-    void add_8XY4(std::int8_t vXAddr, std::int8_t vYAddr) {
+    void add_8XY4(std::uint8_t vXAddr, std::uint8_t vYAddr) {
         int8_t& carryFlagRegister = Registers::get_carry_flag_register(); 
         auto&& [vX, vY] = Registers::get_vx_and_vy(vXAddr, vYAddr);
 

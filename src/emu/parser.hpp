@@ -22,11 +22,11 @@ namespace Parser {
             {'C', 12}, {'D', 13}, {'E', 14}, {'F', 15}
     };
 
-    std::string int8TOHexDigits(std::int8_t bitPttrn, bool includePrefix);
+    std::string uint8TOHexDigits(std::uint8_t bitPttrn, bool includePrefix);
 
-    std::string int8ToHexString(std::int8_t bitPttrn);
+    std::string uint8ToHexString(std::uint8_t bitPttrn);
 
-    std::string int8ToHexDigitsOnly(std::int8_t bitPttrn);
+    std::string uint8ToHexDigitsOnly(std::uint8_t bitPttrn);
 
     std::string constr_opcode_str(std::vector<int8_t>& args);
 
@@ -39,10 +39,6 @@ namespace Parser {
     int8_t get_half_of_byte(std::byte&, bool);
 
     void init_decoding_args(std::vector<int8_t&>&, Chip8Opcode);
-
-    bool decode_and_execute_type_0(int8_t&, int8_t&, int8_t&);
-
-    bool decode_and_execute_helper(std::vector<int8_t&>&);
 
     bool decode_and_execute(Chip8Opcode);
 }

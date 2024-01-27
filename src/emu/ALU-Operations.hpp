@@ -15,6 +15,9 @@ namespace Randomiser {
     int8_t rand_8_bit_num(void);
 }
 
+// TODO: migrate whole codebase to use unsigned ints
+// just learned only now that chip-8 registers are unsigned...
+
 namespace ALU_Ops {
     using std::views::reverse;
     using std::views::iota;
@@ -31,7 +34,7 @@ namespace ALU_Ops {
 
     void xor_8XY3(std::int8_t, std::int8_t);
 
-    void add_8XY4(std::int8_t, std::int8_t);
+    void add_8XY4(std::uint8_t, std::uint8_t);
 
     void minus_8XY5(std::int8_t, std::int8_t);
 
