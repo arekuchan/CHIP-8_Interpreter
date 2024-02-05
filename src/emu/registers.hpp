@@ -56,7 +56,7 @@ namespace Registers {
     // max num of elements
     inline constexpr int maxCallStackSize = 16;
 
-    std::int8_t* const varRegisters[numVarRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
+    std::uint8_t* const varRegisters[numVarRegisters] = {&v0, &v1, &v2, &v3, &v4, &v5, &v6, &v7, &v8, &v9, &vA, &vB, &vC, &vD, &vE, &vF};
 
     // map register number to a pointer to the register
     extern const std::unordered_map<uint8_t, std::int8_t&> variableRegistersMap;

@@ -25,29 +25,33 @@ namespace ALU_Ops {
         return false;
     }
 
-    void addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
+    bool addi_7XNN(std::int8_t vXAddr, std::int8_t constant) {
         auto& registerMap = Registers::variableRegistersMap;
-
         registerMap.at(vXAddr) += constant;
+
+        return false;
     }
 
     // TODO : move this opcode to another file, it isn't an ALU operation
-    void assign_8XY0(std::int8_t vXAddr, std::int8_t vYAddr) {
+    bool assign_8XY0(std::int8_t vXAddr, std::int8_t vYAddr) {
         auto& registerMap = Registers::variableRegistersMap;
-
         registerMap.at(vXAddr) = registerMap.at(vYAddr);
+
+        return false;
     }
 
-    void or_8XY1(std::int8_t vXAddr, std::int8_t vYAddr) {
+    bool or_8XY1(std::int8_t vXAddr, std::int8_t vYAddr) {
         auto& registerMap = Registers::variableRegistersMap;
-
         registerMap.at(vXAddr) |= registerMap.at(vYAddr);
+
+        return false;
     }
 
-    void and_8XY2(std::int8_t vXAddr, std::int8_t vYAddr) {
+    bool and_8XY2(std::int8_t vXAddr, std::int8_t vYAddr) {
         auto& registerMap = Registers::variableRegistersMap;
-
         registerMap.at(vXAddr) &= registerMap.at(vYAddr);
+
+        return false;
     }
 
     void xor_8XY3(std::int8_t vXAddr, std::int8_t vYAddr) {
