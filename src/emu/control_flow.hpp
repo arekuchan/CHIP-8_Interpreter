@@ -24,11 +24,11 @@ namespace ControlFlowOps {
 
     bool call_2nnn(std::uint16_t);
 
-    bool se_3xkk(std::int8_t, std::int8_t);
+    bool se_3xkk(std::uint8_t, std::uint8_t);
 
-    bool sne_4xkk(std::int8_t, std::int8_t);
+    bool sne_4xkk(std::uint8_t, std::uint8_t);
 
-    bool se_5xy0(std::int8_t, std::int8_t);
+    bool se_5xy0(std::uint8_t, std::uint8_t);
 
     bool sne_9xy0(std::int8_t, std::int8_t);
 

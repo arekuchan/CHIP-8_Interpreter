@@ -13,6 +13,7 @@
 #include "display.hpp"
 #include "control_flow.hpp"
 #include "OpcodeType.hpp"
+#include "ALU-Operations.hpp"
 
 namespace Parser {
     const std::unordered_map<char, int> hexMap = {
@@ -37,6 +38,8 @@ namespace Parser {
     bool is_hex_char(const char);
 
     int8_t get_half_of_byte(std::byte&, bool);
+
+    uint8_t extract_last_byte(std::vector<uint8_t>& args);
 
     void init_decoding_args(std::vector<int8_t&>&, Chip8Opcode);
 

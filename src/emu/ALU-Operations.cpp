@@ -18,7 +18,7 @@ namespace Randomiser {
 // TODO : change var names of vXAddr to vXID
 // As they aren't addresses
 namespace ALU_Ops {
-    bool ldi_6XNN(std::int8_t vXID, std::int8_t constant) {
+    bool ldi_6XNN(std::uint8_t vXID, std::uint8_t constant) {
         auto& registerMap = Registers::variableRegistersMap;
         registerMap.at(vXID) = constant;
 

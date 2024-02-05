@@ -17,7 +17,7 @@
 // registers
 namespace Registers {
     // TODO : change code to use this alias
-    using VarRegisterWord = std::int8_t;
+    using VarRegisterWord = std::uint8_t;
 
     constexpr int numVarRegisters = 16;
     constexpr std::int8_t carryFlagRegisterNum = 0xF;

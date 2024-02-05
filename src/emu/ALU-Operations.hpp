@@ -22,7 +22,7 @@ namespace ALU_Ops {
     using std::views::reverse;
     using std::views::iota;
 
-    bool ldi_6XNN(std::int8_t, std::int8_t);
+    bool ldi_6XNN(std::uint8_t, std::uint8_t);
 
     void addi_7XNN(std::int8_t, std::int8_t);
 

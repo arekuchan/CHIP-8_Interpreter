@@ -47,7 +47,7 @@ namespace ControlFlowOps {
     // using the condition function
     // if the condition is met, skip the next instruction
     // true is retured iff the next instruction is skipped (pc register is modifed)
-    bool skip_next_instrc_if_condition(std::int8_t vXID, std::int8_t data, auto condition) {
+    bool skip_next_instrc_if_condition(std::uint8_t vXID, std::uint8_t data, auto condition) {
         auto& vXRegister = Registers::variableRegistersMap.at(vXID);
 
         if (condition(vXRegister, data)) {
@@ -58,16 +58,16 @@ namespace ControlFlowOps {
         return false;
     }
 
-    bool se_3xkk(std::int8_t vXID, std::int8_t data) {
+    bool se_3xkk(std::uint8_t vXID, std::uint8_t data) {
         return skip_next_instrc_if_condition(vXID, data, Conditions::equals);
     }
 
-    bool sne_4xkk(std::int8_t vXID, std::int8_t data) {
+    bool sne_4xkk(std::uint8_t vXID, std::uint8_t data) {
         return skip_next_instrc_if_condition(vXID, data, Conditions::notEquals);
     }
 
-    bool se_5xy0(std::int8_t vXID, std::int8_t vYID) {
-        std::int8_t data = Registers::variableRegistersMap.at(vYID);
+    bool se_5xy0(std::uint8_t vXID, std::uint8_t vYID) {
+        std::uint8_t data = Registers::variableRegistersMap.at(vYID);
 
         return skip_next_instrc_if_condition(vXID, data, Conditions::equals);
     }

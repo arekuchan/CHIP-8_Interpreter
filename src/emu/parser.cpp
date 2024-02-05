@@ -131,6 +131,16 @@ namespace Parser {
         return result;
     }
 
+    uint8_t extract_last_byte(std::vector<uint8_t>& args) {
+        uint8_t result = 0;
+        unsigned int numArgs = args.size();
+
+        result |= args[numArgs - 1];
+        result |= (args[numArgs - 2] << opcodeArgBitSize);
+
+        return result;
+    }
+
     bool decode_and_execute_type_1(std::vector<uint8_t>& args) {
         uint16_t addr = concat_args_excl_first(args);
 
@@ -143,6 +153,78 @@ namespace Parser {
         return ControlFlowOps::call_2nnn(addr);
     }
 
+    bool decode_and_execute_type_3(std::vector<uint8_t>& args) {
+        // TODO: find out how to unpack these like python tuple
+        // for mitigating code duplication
+        uint8_t val = extract_last_byte(args);
+        uint8_t& vXID = args[1];
+
+        return ControlFlowOps::se_3xkk(varRegID, val);
+    }
+
+    bool decode_and_execute_type_4(std::vector<uint8_t>& args) {
+        uint8_t val = extract_last_byte(args);
+        uint8_t& vXID = args[1];
+
+        return ControlFlowOps::sne_4xkk(varRegID, val);
+    }
+
+    bool decode_and_execute_type_5(std::vector<uint8_t>& args) {
+        uint8_t& vXID = args[1];
+        uint8_t& vYID = args[2];
+
+        return ControlFlowOps::se_5xy0(vXID, vYID);
+    }
+
+    bool decode_and_execute_type_6(std::vector<uint8_t>& args) {
+        uint8_t val = extract_last_byte(args);
+        uint8_t& vXID = args[1];
+
+        return ALU_Ops::ldi_6XNN(vXID, val);
+
+    }
+
+    bool decode_and_execute_type_7(std::vector<uint8_t>& args) {
+        uint8_t val = extract_last_byte(args);
+        uint8_t& vXID = args[1];
+
+        return ALU_Ops::addi_7XNN(vXID, val);
+    }
+
+    bool decode_and_execute_type_8_helper(uint8_t& vXID, uint8_t& vYID,uint8_t& lastArg, std::string opcodeName) {
+        switch(lastArg) {
+            case 0x0;
+                return ALU_Ops::assign_8XY0(vXID, vYID);
+            case 0x1:
+                return ALU_Ops::or_8XY1(vXID, vYID);
+            case 0x2:
+                return ALU_Ops::and_8XY2(vXID, vYID);
+            case 0x3:
+                return ALU_Ops::xor_8XY3(vXID, vYID);
+            case 0x4:
+                return ALU_Ops::add_8XY4(vXID, vYID);
+            case 0x5:
+                return ALU_Ops::minus_8XY5(vXID, vYID);
+            case 0x6:
+                return ALU_Ops::shr_8XY6(vXID, vYID);
+            case 0x7:
+                return ALU_Ops::subn_8XY7(vXID, vYID);
+            case 0xE:
+                return ALU_Ops::shl_8XYE(vXID, vYID);
+            default:
+                throw InvalidOpcodeException(opcodeName);
+        }
+    }
+
+    bool decode_and_execute_type_8(std::vector<uint8_t>& args) {
+        uint8_t& vXID = args[1];
+        uint8_t& vYID = args[2];
+
+        std::string opcodeName = constr_opcode_str(args);
+
+        return decode_and_execute_type_8_helper(vXID, vYID, args[args.size() - 1], opcodeName);
+    }
+
     // args must be init'd
     bool decode_and_execute_helper(std::vector<uint8_t>& args) {
 	    switch (args[0]) {
@@ -153,13 +235,13 @@ namespace Parser {
 	        case 0x2:
                 return decode_and_execute_type_2(args);
 	        case 0x3:
-	    	    break;
+                return decode_and_exexute_type_3(args);
 	        case 0x4:
-	    	    break;
+	    	    return decode_and_execute_type_4(args);
 	        case 0x5:
-	    	    break;
+                return decode_and_execute_type_5(args);
 	        case 0x6:
-	    	    break;
+                return decode_and_execute_type_6(args);
 	        case 0x7:
 	    	    break;
 	        case 0x8:
