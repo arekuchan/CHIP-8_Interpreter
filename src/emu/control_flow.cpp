@@ -25,7 +25,7 @@ namespace ControlFlowOps {
         return true;
     }
 
-    void call_2nnn(std::uint16_t addr) {
+    bool call_2nnn(std::uint16_t addr) {
         Registers::push_onto_call_stack(Registers::get_pc_register_val());
         Registers::set_pc_register(addr);
 

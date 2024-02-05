@@ -26,7 +26,7 @@ namespace Chip8VMRam {
 namespace RamOpcodes {
     char hexDigitToChar(std::int8_t);
 
-    void set_i_to_stored_sprite_loc_FX29(std::int8_t);
+    void set_i_to_stored_sprite_loc_FX29(std::uint8_t);
 
     void check_enough_ram_to_access(auto, auto);
 

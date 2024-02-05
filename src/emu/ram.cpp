@@ -57,7 +57,7 @@ namespace RamOpcodes {
     // As they aren't addresses
 
     // make sure storedSpritesLocations is initialised properly before calling this
-    void set_i_to_stored_sprite_loc_FX29(std::int8_t vXAddr) {
+    void set_i_to_stored_sprite_loc_FX29(std::uint8_t vXAddr) {
         auto&& vX = Registers::variableRegistersMap.at(vXAddr);
         char spriteChar = hexDigitToChar(vX);
 

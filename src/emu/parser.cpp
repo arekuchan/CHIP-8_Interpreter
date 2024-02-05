@@ -19,7 +19,7 @@ namespace Parser {
 
     // returns w/ 0x prefix
     std::string uint8ToHexString(std::uint8_t bitPttrn) {
-        return int8ToHexDigits(bitPttrn, true);
+        return uint8ToHexDigits(bitPttrn, true);
     }
 
     void truncate_prefix_zeros(std::string& str) {
@@ -114,7 +114,7 @@ namespace Parser {
 
     uint16_t concat_args_excl_first(std::vector<uint8_t>& args) {
         uint16_t result = 0;
-        unsigned int numActualArgs = args.length() - 1; // excl args[0] which is opcode type
+        unsigned int numActualArgs = args.size() - 1; // excl args[0] which is opcode type
 
         // think of each arg as a list of bits of opcodeArgBitSize
         // goal: concat these lists, prepend zeros and store in result
@@ -122,7 +122,7 @@ namespace Parser {
         // numActualArgs - i tells you what section is should be in (section 0 is on right most side)
         // multiplying by opcodeArgBitSize shifts it to the right offset
 
-        for (int i : std::views::iota(1, numActualArgs + 1) {
+        for (int i : std::views::iota(1, static_cast<int>(numActualArgs) + 1)) {
             int shiftAmt = (numActualArgs - i) * opcodeArgBitSize;
 
             result |= static_cast<uint16_t>(args[i]) << shiftAmt; 
@@ -134,13 +134,13 @@ namespace Parser {
     bool decode_and_execute_type_1(std::vector<uint8_t>& args) {
         uint16_t addr = concat_args_excl_first(args);
 
-        return jmp_1nnn(addr);
+        return ControlFlowOps::jmp_1nnn(addr);
     }
 
     bool decode_and_execute_type_2(std::vector<uint8_t>& args) {
         uint16_t addr = concat_args_excl_first(args);
 
-        return call_2nnn(addr);
+        return ControlFlowOps::call_2nnn(addr);
     }
 
     // args must be init'd

@@ -22,7 +22,7 @@ namespace Parser {
             {'C', 12}, {'D', 13}, {'E', 14}, {'F', 15}
     };
 
-    std::string uint8TOHexDigits(std::uint8_t bitPttrn, bool includePrefix);
+    std::string uint8ToHexDigits(std::uint8_t bitPttrn, bool includePrefix);
 
     std::string uint8ToHexString(std::uint8_t bitPttrn);
 

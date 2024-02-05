@@ -1,7 +1,7 @@
 #include "exceptions.hpp"
 
-InvalidStoredSpriteIdentifierException::InvalidStoredSpriteIdentifierException(std::int8_t invalidIdentifier) noexcept {
-    this->invalidIdentifier = Parser::int8ToHexString(invalidIdentifier);
+InvalidStoredSpriteIdentifierException::InvalidStoredSpriteIdentifierException(std::uint8_t invalidIdentifier) noexcept {
+    this->invalidIdentifier = Parser::uint8ToHexString(invalidIdentifier);
 }
 
 const char* InvalidStoredSpriteIdentifierException::what() const noexcept {

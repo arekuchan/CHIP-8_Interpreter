@@ -11,7 +11,7 @@
 
 
 namespace Parser {
-    std::string int8ToHexString(std::int8_t);
+    std::string uint8ToHexString(std::uint8_t);
 }
 
 class InvalidStoredSpriteIdentifierException : public std::exception {
@@ -19,7 +19,7 @@ class InvalidStoredSpriteIdentifierException : public std::exception {
         std::string invalidIdentifier;
 
     public:
-        InvalidStoredSpriteIdentifierException(std::int8_t) noexcept;
+        InvalidStoredSpriteIdentifierException(std::uint8_t) noexcept;
 
         virtual const char* what() const noexcept; 
 };
